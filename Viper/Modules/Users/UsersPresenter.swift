@@ -44,9 +44,9 @@ extension UsersPresenter: UsersPresenterInterface {
 	}
 
 	func showUserWith(index: Int) {
-		interactor.getUserBy(id: privateUsers[index].id ?? 0) { (user) -> (Void) in
+		interactor.getUserBy(id: privateUsers[index].id ?? 0) { [weak self] (user) -> (Void) in
 			DispatchQueue.main.async {
-				self.wireframe.willShow(user: user)
+				self?.wireframe.willShow(user: user)
 			}
 		}
 	}

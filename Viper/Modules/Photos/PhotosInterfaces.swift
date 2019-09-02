@@ -10,17 +10,24 @@
 
 import UIKit
 
+typealias PhotosCompletionBlock = ([Photo]) -> (Void)
+typealias PhotoCompletionBlock = (Photo) -> (Void)
+
 protocol PhotosWireframeInterface: WireframeInterface {
-	func willPresentAlbum(id: Int)
 }
 
 protocol PhotosViewInterface: ViewInterface {
-	func presentAlbumActionWith(id: Int)
+	func showPhotos()
 }
 
 protocol PhotosPresenterInterface: PresenterInterface {
-	func showAlbumWith(Id: Int)
+	var album: Album { get }
+	var photos: [Photo] { get }
+	var localImageCache: NSCache<NSString, UIImage> { get }
+
+	func showPhotosWithAlbum(id: Int, completion: @escaping PhotosCompletionBlock)
 }
 
 protocol PhotosInteractorInterface: InteractorInterface {
+	func getPhotosWithAlbum(id: Int, completion: @escaping PhotosCompletionBlock)
 }

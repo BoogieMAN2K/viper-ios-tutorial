@@ -37,6 +37,29 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gjf-yJ-4MC">
                                 <rect key="frame" x="0.0" y="259.5" width="375" height="407.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="albumCell" textLabel="EJu-wB-9R8" style="IBUITableViewCellStyleDefault" id="30Q-cS-JZa">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="30Q-cS-JZa" id="Lrw-jF-sRb">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EJu-wB-9R8">
+                                                    <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="zIc-eW-6fX" id="xsc-ot-ikC"/>
+                                    <outlet property="delegate" destination="zIc-eW-6fX" id="2LZ-XQ-tZ0"/>
+                                </connections>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EWM-8j-Rbd">
                                 <rect key="frame" x="16" y="74" width="343" height="21"/>
@@ -108,6 +131,7 @@
                         <outlet property="email" destination="ryq-C2-PD4" id="lyk-HJ-keH"/>
                         <outlet property="name" destination="EWM-8j-Rbd" id="ZWe-hu-3jG"/>
                         <outlet property="phone" destination="kpG-Lw-y0a" id="uip-dB-v6c"/>
+                        <outlet property="tableView" destination="gjf-yJ-4MC" id="pn9-Di-oq0"/>
                         <outlet property="tableview" destination="gjf-yJ-4MC" id="kKT-wO-nyQ"/>
                         <outlet property="username" destination="TqF-zt-74f" id="NXh-Gw-v8Q"/>
                         <outlet property="website" destination="SJn-ES-03r" id="cZL-Ln-h64"/>

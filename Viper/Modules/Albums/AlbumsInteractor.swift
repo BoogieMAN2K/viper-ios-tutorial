@@ -16,4 +16,12 @@ final class AlbumsInteractor {
 // MARK: - Extensions -
 
 extension AlbumsInteractor: AlbumsInteractorInterface {
+	func getAlbumBy(id: Int, completion: @escaping AlbumCompletionBlock) {
+		Services.getAlbumBy(id: id, completion: completion)
+	}
+
+	func getAlbumsBy(user: Int, completion: @escaping AlbumsCompletionBlock) {
+		Services.getAlbumsBy(user: user, completion: completion)
+	}
+
 }

@@ -13,11 +13,9 @@ import UIKit
 final class AlbumsWireframe: BaseWireframe<AlbumsViewController> {
 
     // MARK: - Private properties -
-
     private let storyboard = UIStoryboard(name: "Albums", bundle: nil)
 
     // MARK: - Module setup -
-
 	init(user: ServicesUser) {
         let moduleViewController = storyboard.instantiateViewController(ofType: AlbumsViewController.self)
         super.init(viewController: moduleViewController)
@@ -26,10 +24,12 @@ final class AlbumsWireframe: BaseWireframe<AlbumsViewController> {
 		let presenter = AlbumsPresenter(view: moduleViewController, interactor: interactor, wireframe: self, user: user)
         moduleViewController.presenter = presenter
     }
-
 }
 
 // MARK: - Extensions -
 
 extension AlbumsWireframe: AlbumsWireframeInterface {
+	func willShowUser(album: Album) {
+		navigationController?.pushWireframe(PhotosWireframe(album: album))
+	}
 }

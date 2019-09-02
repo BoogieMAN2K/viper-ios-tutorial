@@ -16,4 +16,7 @@ final class PhotosInteractor {
 // MARK: - Extensions -
 
 extension PhotosInteractor: PhotosInteractorInterface {
+	func getPhotosWithAlbum(id: Int, completion: @escaping PhotosCompletionBlock) {
+		Services.getPhotosBy(album: id, completion: completion)
+	}
 }

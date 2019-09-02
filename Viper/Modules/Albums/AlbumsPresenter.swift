@@ -33,6 +33,25 @@ final class AlbumsPresenter {
 // MARK: - Extensions -
 
 extension AlbumsPresenter: AlbumsPresenterInterface {
+	func showUserAlbums(completion: @escaping AlbumsCompletionBlock) {
+		interactor.getAlbumsBy(user: privateUser.id ?? 0) { [weak self] (albums) -> (Void) in
+			self?.privateAlbums = albums
+			completion(albums)
+		}
+	}
+
+	func showAlbumWith(id: Int) {
+		interactor.getAlbumBy(id: id) { [weak self] (album) -> (Void) in
+			DispatchQueue.main.async {
+				self?.wireframe.willShowUser(album: album)
+			}
+		}
+	}
+
+	func show(album: Album) {
+		self.wireframe.willShowUser(album: album)
+	}
+
 	var user: User {
 		return User(user: privateUser)
 	}

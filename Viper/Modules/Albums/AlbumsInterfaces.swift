@@ -10,16 +10,28 @@
 
 import UIKit
 
+typealias AlbumsCompletionBlock = ([Album]) -> (Void)
+typealias AlbumCompletionBlock = (Album) -> (Void)
+
 protocol AlbumsWireframeInterface: WireframeInterface {
+	func willShowUser(album: Album)
 }
 
 protocol AlbumsViewInterface: ViewInterface {
+	func showUserAlbums()
+	func showSelectedAlbumWith(album: Album)
 }
 
 protocol AlbumsPresenterInterface: PresenterInterface {
 	var user: User { get }
 	var albums: [Album] { get }
+
+	func showUserAlbums(completion: @escaping AlbumsCompletionBlock)
+	func showAlbumWith(id: Int)
+	func show(album: Album)
 }
 
 protocol AlbumsInteractorInterface: InteractorInterface {
+	func getAlbumBy(id: Int, completion: @escaping AlbumCompletionBlock)
+	func getAlbumsBy(user: Int, completion: @escaping AlbumsCompletionBlock)
 }

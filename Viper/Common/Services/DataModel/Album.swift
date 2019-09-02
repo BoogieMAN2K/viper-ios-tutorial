@@ -11,27 +11,25 @@ import Foundation
 struct Album: Codable {
 	let userId: Int?
 	let id: Int?
-	let description: String?
+	let title: String?
 
 	init() {
 		userId = 0
 		id = 0
-		description = ""
+		title = ""
 	}
 
 	enum CodingKeys: String, CodingKey {
 		case userId = "userId"
 		case id = "id"
-		case description = "description"
+		case title = "title"
 	}
 
 	init(from decoder: Decoder) throws {
 		let values = try decoder.container(keyedBy: CodingKeys.self)
-		let userIdString = try values.decode(String.self, forKey: .userId)
-		let idString = try values.decode(String.self, forKey: .id)
-		userId = Int(userIdString) ?? 0
-		id = Int(idString) ?? 0
-		description = try values.decodeIfPresent(String.self, forKey: .description)
+		userId = try values.decode(Int.self, forKey: .userId)
+		id = try values.decode(Int.self, forKey: .id)
+		title = try values.decodeIfPresent(String.self, forKey: .title)
 	}
 
 }

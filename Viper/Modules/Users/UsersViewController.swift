@@ -13,12 +13,12 @@ import UIKit
 final class UsersViewController: UIViewController {
 
     // MARK: - Public properties -
-
-	@IBOutlet weak var tableView: UITableView!
 	var presenter: UsersPresenterInterface!
 
-    // MARK: - Lifecycle -
+	// MARK: - Private properties -
+	@IBOutlet private weak var tableView: UITableView!
 
+    // MARK: - Lifecycle -
     override func viewDidLoad() {
         super.viewDidLoad()
 

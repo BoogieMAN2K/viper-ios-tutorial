@@ -13,7 +13,6 @@ import UIKit
 typealias UsersCompletionBlock = ([ServicesUser]) -> (Void)
 typealias UserCompletionBlock = (ServicesUser) -> (Void)
 
-
 protocol UsersWireframeInterface: WireframeInterface {
 	func willShow(user: ServicesUser)
 }

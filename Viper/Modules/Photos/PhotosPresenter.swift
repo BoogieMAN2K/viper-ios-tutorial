@@ -14,25 +14,42 @@ final class PhotosPresenter {
 
     // MARK: - Private properties -
 
+	private var privateAlbum = Album()
+	private var privatePhotos = [Photo]()
+	private var privateCache = NSCache<NSString, UIImage>()
     private unowned let view: PhotosViewInterface
     private let interactor: PhotosInteractorInterface
     private let wireframe: PhotosWireframeInterface
 
     // MARK: - Lifecycle -
 
-    init(view: PhotosViewInterface, interactor: PhotosInteractorInterface, wireframe: PhotosWireframeInterface) {
+	init(view: PhotosViewInterface, interactor: PhotosInteractorInterface, wireframe: PhotosWireframeInterface, album: Album) {
         self.view = view
         self.interactor = interactor
         self.wireframe = wireframe
+		self.privateAlbum = album
     }
 }
 
 // MARK: - Extensions -
 
 extension PhotosPresenter: PhotosPresenterInterface {
-	func showAlbumWith(Id: Int) {
-		wireframe.willPresentAlbum(id: Id)
+	var localImageCache: NSCache<NSString, UIImage> {
+		return privateCache
 	}
-	
 
+	func showPhotosWithAlbum(id: Int, completion: @escaping PhotosCompletionBlock) {
+		interactor.getPhotosWithAlbum(id: id) { (photos) -> (Void) in
+			self.privatePhotos = photos
+			completion(photos)
+		}
+	}
+
+	var album: Album {
+		return privateAlbum
+	}
+
+	var photos: [Photo] {
+		return privatePhotos
+	}
 }

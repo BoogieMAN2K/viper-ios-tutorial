@@ -18,20 +18,17 @@ final class PhotosWireframe: BaseWireframe<PhotosViewController> {
 
     // MARK: - Module setup -
 
-    init() {
+	init(album: Album) {
         let moduleViewController = storyboard.instantiateViewController(ofType: PhotosViewController.self)
         super.init(viewController: moduleViewController)
         
         let interactor = PhotosInteractor()
-        let presenter = PhotosPresenter(view: moduleViewController, interactor: interactor, wireframe: self)
+        let presenter = PhotosPresenter(view: moduleViewController, interactor: interactor, wireframe: self, album: album)
         moduleViewController.presenter = presenter
     }
 
 }
 
 // MARK: - Extensions -
-
 extension PhotosWireframe: PhotosWireframeInterface {
-	func willPresentAlbum(id: Int) {
-	}
 }
