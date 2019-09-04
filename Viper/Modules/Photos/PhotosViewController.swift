@@ -47,8 +47,15 @@ extension PhotosViewController: UICollectionViewDataSource {
 	}
 
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		let item = presenter.photos[indexPath.row]
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as! PhotoCollectionViewCell
+		cell.photoThumbnail.image = UIImage()
+
+		return cell
+	}
+
+	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+		let item = presenter.photos[indexPath.row]
+		let cell = cell as! PhotoCollectionViewCell
 		if let cachedImage = presenter.localImageCache.object(forKey: item.thumbnailUrl! as NSString) {
 			cell.photoThumbnail.image = cachedImage
 		} else {
@@ -59,8 +66,6 @@ extension PhotosViewController: UICollectionViewDataSource {
 				}
 			}
 		}
-
-		return cell
 	}
 
 	func numberOfSections(in collectionView: UICollectionView) -> Int {
