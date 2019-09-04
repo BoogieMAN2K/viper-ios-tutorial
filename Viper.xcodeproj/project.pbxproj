@@ -12,7 +12,6 @@
 		BC6B8DBD231D938A0088057E /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6B8DBC231D938A0088057E /* Photo.swift */; };
 		BC6B8DBF231D9F410088057E /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6B8DBE231D9F410088057E /* PhotoCollectionViewCell.swift */; };
 		BCDA6EA92319571B00213E2F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA6EA82319571B00213E2F /* AppDelegate.swift */; };
-		BCDA6EAE2319571B00213E2F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCDA6EAC2319571B00213E2F /* Main.storyboard */; };
 		BCDA6EB02319571C00213E2F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCDA6EAF2319571C00213E2F /* Assets.xcassets */; };
 		BCDA6EB32319571C00213E2F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCDA6EB12319571C00213E2F /* LaunchScreen.storyboard */; };
 		BCDA6EC22319583100213E2F /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA6EBF2319583100213E2F /* NavigationController.swift */; };
@@ -55,7 +54,6 @@
 		BC6B8DBE231D9F410088057E /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		BCDA6EA52319571B00213E2F /* Viper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Viper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCDA6EA82319571B00213E2F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		BCDA6EAD2319571B00213E2F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BCDA6EAF2319571C00213E2F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BCDA6EB22319571C00213E2F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BCDA6EB42319571C00213E2F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -168,7 +166,6 @@
 			children = (
 				BCDA6EAF2319571C00213E2F /* Assets.xcassets */,
 				BCDA6EB12319571C00213E2F /* LaunchScreen.storyboard */,
-				BCDA6EAC2319571B00213E2F /* Main.storyboard */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -317,7 +314,6 @@
 				BCDA6ECB2319596500213E2F /* Photos.storyboard in Resources */,
 				BCDA6F0823195FF600213E2F /* Users.storyboard in Resources */,
 				BCDA6EB02319571C00213E2F /* Assets.xcassets in Resources */,
-				BCDA6EAE2319571B00213E2F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,14 +363,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		BCDA6EAC2319571B00213E2F /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BCDA6EAD2319571B00213E2F /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		BCDA6EB12319571C00213E2F /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
