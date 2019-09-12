@@ -11,17 +11,35 @@
 import Foundation
 
 final class AlbumsInteractor {
+
+    var privateServices: APIServicesInterfaces!
+
 }
 
 // MARK: - Extensions -
 
 extension AlbumsInteractor: AlbumsInteractorInterface {
+    var services: APIServicesInterfaces {
+        get {
+            return privateServices
+        }
+        set {
+            privateServices = newValue
+        }
+    }
+
+    convenience init(services: APIServicesInterfaces) {
+        self.init()
+
+        self.services = services
+    }
+
 	func getAlbumBy(id: Int, completion: @escaping AlbumCompletionBlock) {
-		Services.getAlbumBy(id: id, completion: completion)
+		services.getAlbumBy(id: id, completion: completion)
 	}
 
 	func getAlbumsBy(user: Int, completion: @escaping AlbumsCompletionBlock) {
-		Services.getAlbumsBy(user: user, completion: completion)
+		services.getAlbumsBy(user: user, completion: completion)
 	}
 
 }

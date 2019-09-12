@@ -12,65 +12,66 @@ import UIKit
 
 final class PhotosViewController: UIViewController {
 
-	// MARK: - Public properties -
-	var presenter: PhotosPresenterInterface!
+    // MARK: - Public properties -
+    var presenter: PhotosPresenterInterface!
 
-	// MARK: - Private properties -
-	@IBOutlet private weak var collectionView: UICollectionView!
+    // MARK: - Private properties -
+    @IBOutlet private weak var collectionView: UICollectionView!
 
-	// MARK: - Lifecycle -
-	override func viewDidLoad() {
-		super.viewDidLoad()
+    // MARK: - Lifecycle -
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
-		showPhotos()
-	}
+        showPhotos()
+    }
 }
 
 // MARK: - UICollectionView Delegate -
 extension PhotosViewController: UICollectionViewDelegate {
-	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		let selectedAlbum = self.presenter.photos[indexPath.row]
-	}
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedAlbum = self.presenter.photos[indexPath.row]
+    }
 }
 
 // MARK: - UICollectionView DelegateFlowLayout -
 extension PhotosViewController: UICollectionViewDelegateFlowLayout {
-	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-		return CGSize(width: 120, height: 120)
-	}
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 120, height: 120)
+    }
 }
 
 // MARK: - UICollectionView DataSource -
 extension PhotosViewController: UICollectionViewDataSource {
-	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return presenter.photos.count
-	}
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return presenter.photos.count
+    }
 
-	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as! PhotoCollectionViewCell
-		cell.photoThumbnail.image = UIImage()
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as! PhotoCollectionViewCell
+        cell.photoThumbnail.image = UIImage()
 
-		return cell
-	}
+        return cell
+    }
 
-	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-		let item = presenter.photos[indexPath.row]
-		let cell = cell as! PhotoCollectionViewCell
-		if let cachedImage = presenter.localImageCache.object(forKey: item.thumbnailUrl! as NSString) {
-			cell.photoThumbnail.image = cachedImage
-		} else {
-			Services.downloadImage(url: item.thumbnailUrl!) { [weak self] (image) -> (Void) in
-				self?.presenter.localImageCache.setObject(image, forKey: item.thumbnailUrl! as NSString)
-				DispatchQueue.main.async {
-					cell.photoThumbnail.image = image
-				}
-			}
-		}
-	}
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        let item = presenter.photos[indexPath.row]
+        let cell = cell as! PhotoCollectionViewCell
+        if let cachedImage = presenter.localImageCache.object(forKey: item.thumbnailUrl! as NSString) {
+            cell.photoThumbnail.image = cachedImage
+        } else {
+            presenter.downloadPhotoWith(url: item.thumbnailUrl!) { [weak self] (data) -> (Void) in
+                guard let downloadedImage = UIImage(data: data) else { return }
+                self?.presenter.localImageCache.setObject(downloadedImage, forKey: item.thumbnailUrl! as NSString)
+                DispatchQueue.main.async {
+                    cell.photoThumbnail.image = downloadedImage
+                }
+            }
+        }
+    }
 
-	func numberOfSections(in collectionView: UICollectionView) -> Int {
-		return 1
-	}
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
 }
 
 
@@ -78,15 +79,15 @@ extension PhotosViewController: UICollectionViewDataSource {
 
 // MARK: - Extensions -
 extension PhotosViewController: PhotosViewInterface {
-	func showPhotos() {
-		presenter.showPhotosWithAlbum(id: presenter.album.id ?? 0) { [weak self] (photos) -> (Void) in
-			DispatchQueue.main.async { [weak self] in
-				self?.collectionView.reloadData()
-			}
-		}
-	}
+    func showPhotos() {
+        presenter.showPhotosWithAlbum(id: presenter.album.id ?? 0) { [weak self] (photos) -> (Void) in
+            DispatchQueue.main.async { [weak self] in
+                self?.collectionView.reloadData()
+            }
+        }
+    }
 
-	func presentAlbumActionWith(id: Int) {
-	}
+    func presentAlbumActionWith(id: Int) {
+    }
 
 }

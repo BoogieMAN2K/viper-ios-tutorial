@@ -11,12 +11,36 @@
 import Foundation
 
 final class PhotosInteractor {
+
+    private var privateService: APIServicesInterfaces!
+
 }
 
 // MARK: - Extensions -
 
 extension PhotosInteractor: PhotosInteractorInterface {
+    func downloadPhotoWith(url: String, completion: @escaping DownloadedImageCompletionBlock) {
+        self.services.downloadImage(url: url) { (data) -> (Void) in
+            completion(data)
+        }
+    }
+
+    var services: APIServicesInterfaces {
+        get {
+            return privateService
+        }
+        set {
+            privateService = newValue
+        }
+    }
+
+    convenience init(services: APIServicesInterfaces) {
+        self.init()
+
+        self.services = services
+    }
+
 	func getPhotosWithAlbum(id: Int, completion: @escaping PhotosCompletionBlock) {
-		Services.getPhotosBy(album: id, completion: completion)
+		services.getPhotosBy(album: id, completion: completion)
 	}
 }

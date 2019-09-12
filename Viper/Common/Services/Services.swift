@@ -7,13 +7,12 @@
 //
 
 import Foundation
-import UIKit
 
-final class Services {
+final class Services: APIServicesInterfaces {
 
 	static let session = URLSession(configuration: URLSessionConfiguration.ephemeral)
 
-	static func getUsers(completion: @escaping UsersCompletionBlock) {
+	func getUsers(completion: @escaping UsersCompletionBlock) {
 		let task = Services.session.dataTask(with: Constants.API.URLBase.appendingPathComponent("users")) { (data, response, error) in
 			guard let data = data, let response = try? JSONDecoder().decode(Array<ServicesUser>.self, from: data) else { return }
 			completion(response)
@@ -22,7 +21,7 @@ final class Services {
 		task.resume()
 	}
 
-	static func getUsersBy(id: Int, completion: @escaping UserCompletionBlock) {
+	func getUsersBy(id: Int, completion: @escaping UserCompletionBlock) {
 		let url = "users/\(id)"
 		let task = Services.session.dataTask(with: Constants.API.URLBase.appendingPathComponent(url)) { (data, response, error) in
 			guard let data = data, let response = try? JSONDecoder().decode(ServicesUser.self, from: data) else { return }
@@ -32,7 +31,7 @@ final class Services {
 		task.resume()
 	}
 
-	static func getAlbumsBy(user: Int, completion: @escaping AlbumsCompletionBlock) {
+	func getAlbumsBy(user: Int, completion: @escaping AlbumsCompletionBlock) {
 		let url = "albums"
 		var components = URLComponents(string: Constants.API.URLBase.appendingPathComponent(url).absoluteString)!
 		let param = ["userId":String(user)]
@@ -51,7 +50,7 @@ final class Services {
 		task.resume()
 	}
 
-	static func getAlbumBy(id: Int, completion: @escaping AlbumCompletionBlock) {
+	func getAlbumBy(id: Int, completion: @escaping AlbumCompletionBlock) {
 		let url = "albums/\(id)"
 		let task = Services.session.dataTask(with: Constants.API.URLBase.appendingPathComponent(url)) { (data, response, error) in
 			guard let data = data, let response = try? JSONDecoder().decode(Album.self, from: data) else { return }
@@ -61,7 +60,7 @@ final class Services {
 		task.resume()
 	}
 
-	static func getPhotosBy(album: Int, completion: @escaping PhotosCompletionBlock) {
+	func getPhotosBy(album: Int, completion: @escaping PhotosCompletionBlock) {
 		let url = "photos"
 		var components = URLComponents(string: Constants.API.URLBase.appendingPathComponent(url).absoluteString)!
 		let param = ["albumId": String(album)]
@@ -80,7 +79,7 @@ final class Services {
 		task.resume()
 	}
 
-	static func downloadImage(url: String, completion: @escaping (UIImage)->(Void)) {
+	func downloadImage(url: String, completion: @escaping DownloadedImageCompletionBlock) {
 		let finalURL: URL = URL(string: url)!
 		let task = Services.session.dataTask(with: finalURL) { (data, response, error) in
 			if (error != nil) {
@@ -88,8 +87,8 @@ final class Services {
 				return
 			}
 
-			guard let data = data, let image = UIImage(data: data) else { return }
-			completion(image)
+			guard let data = data else { return }
+			completion(data)
 		}
 
 		task.resume()

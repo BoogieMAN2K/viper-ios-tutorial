@@ -26,8 +26,10 @@ protocol PhotosPresenterInterface: PresenterInterface {
 	var localImageCache: NSCache<NSString, UIImage> { get }
 
 	func showPhotosWithAlbum(id: Int, completion: @escaping PhotosCompletionBlock)
+    func downloadPhotoWith(url: String, completion: @escaping DownloadedImageCompletionBlock)
 }
 
 protocol PhotosInteractorInterface: InteractorInterface {
+    func downloadPhotoWith(url: String, completion: @escaping DownloadedImageCompletionBlock)
 	func getPhotosWithAlbum(id: Int, completion: @escaping PhotosCompletionBlock)
 }
