@@ -9,10 +9,11 @@
 //
 
 import UIKit
+import RxSwift
 
 final class AlbumsViewController: UIViewController {
 
-    // MARK: - Public properties -
+	// MARK: - Public properties -
 	var presenter: AlbumsPresenterInterface!
 
 	// MARK: - Private properties -
@@ -25,20 +26,21 @@ final class AlbumsViewController: UIViewController {
 	@IBOutlet private weak var tableview: UITableView!
 	@IBOutlet private weak var tableView: UITableView!
 
-    // MARK: - Lifecycle -
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-		name.text = presenter.user.name
-		username.text = presenter.user.username
-		email.text = presenter.user.email
-		address.text = presenter.user.address
-		phone.text = presenter.user.phone
-		website.text = presenter.user.website
+	// MARK: - Lifecycle -
+	override func viewDidLoad() {
+		super.viewDidLoad()
 
 		showUserAlbums()
-    }
+		setupLabels()
+	}
 	
+	func setupLabels() {
+		presenter.setupLabels()
+	}
+
+	@IBAction func changeButtonTap(_ sender: Any) {
+		presenter.changeUserInfo()
+	}
 }
 
 // MARK: - UITableView Delegate -
@@ -74,6 +76,15 @@ extension AlbumsViewController: UITableViewDataSource {
 // MARK: - Extensions -
 
 extension AlbumsViewController: AlbumsViewInterface {
+	func setupLabelsWith(user: User) {
+		self.name.text = user.name
+		self.username.text = user.username
+		self.email.text = user.email
+		self.address.text = user.address
+		self.phone.text = user.phone
+		self.website.text = user.website
+	}
+
 	func showUserAlbums() {
 		presenter.showUserAlbums { (albums) -> (Void) in
 			DispatchQueue.main.async { [weak self] in
@@ -85,5 +96,4 @@ extension AlbumsViewController: AlbumsViewInterface {
 	func showSelectedAlbumWith(album: Album) {
 		presenter.show(album: album)
 	}
-
 }

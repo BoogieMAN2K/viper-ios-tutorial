@@ -9,50 +9,45 @@
 //
 
 import UIKit
+import RxSwift
 
 final class UsersViewController: UIViewController {
 
-    // MARK: - Public properties -
+	// MARK: - Public properties -
 	var presenter: UsersPresenterInterface!
 
 	// MARK: - Private properties -
 	@IBOutlet private weak var tableView: UITableView!
+	private let disposeBag = DisposeBag()
 
-    // MARK: - Lifecycle -
-    override func viewDidLoad() {
-        super.viewDidLoad()
+	// MARK: - Lifecycle -
+	override func viewDidLoad() {
+		super.viewDidLoad()
 
 		showUsers()
-    }
-	
-}
-
-extension UsersViewController: UITableViewDelegate {
-	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		showUser(index: indexPath.row)
-	}
-}
-
-extension UsersViewController: UITableViewDataSource {
-	func numberOfSections(in tableView: UITableView) -> Int {
-		return 1
+		setupTableView()
+		setupTableViewTap()
 	}
 
-	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return presenter.users.count
-	}
-
-	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let item = presenter.users[indexPath.row]
-		var cell = tableView.dequeueReusableCell(withIdentifier: "userCell")
-		if (cell == nil)
-		{
-			cell = UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: "userCell")
+	func setupTableView() {
+		presenter.users.bind(to: tableView
+			.rx
+			.items(cellIdentifier: "userCell")) {
+				row, item, cell in
+				cell.textLabel?.text = item.name
+				cell.detailTextLabel?.text = item.username
 		}
-		cell?.textLabel?.text = item.name
-		cell?.detailTextLabel?.text = item.username
-		return cell ?? UITableViewCell()
+		.disposed(by: disposeBag)
 	}
+
+	func setupTableViewTap() {
+		tableView.rx
+			.modelSelected(ServicesUser.self)
+			.subscribe ({ [unowned self] (user) in
+				self.showUser(index: self.tableView.indexPathForSelectedRow?.item ?? 0)
+			}).disposed(by: disposeBag)
+	}
+
 }
 
 // MARK: - Extensions -

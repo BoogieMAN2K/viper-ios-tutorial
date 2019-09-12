@@ -18,6 +18,17 @@ struct User {
 	let website : String?
 	let company : String?
 
+	init() {
+		self.id = 0
+		self.name = ""
+		self.username = ""
+		self.email = ""
+		self.address = ""
+		self.phone = ""
+		self.website = ""
+		self.company = ""
+	}
+
 	init(user: ServicesUser) {
 		self.id = user.id
 		self.name = user.name
