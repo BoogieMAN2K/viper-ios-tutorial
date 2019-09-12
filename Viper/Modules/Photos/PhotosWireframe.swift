@@ -22,7 +22,7 @@ final class PhotosWireframe: BaseWireframe<PhotosViewController> {
         let moduleViewController = storyboard.instantiateViewController(ofType: PhotosViewController.self)
         super.init(viewController: moduleViewController)
         
-        let interactor = PhotosInteractor()
+        let interactor = PhotosInteractor(services: Services())
         let presenter = PhotosPresenter(view: moduleViewController, interactor: interactor, wireframe: self, album: album)
         moduleViewController.presenter = presenter
     }

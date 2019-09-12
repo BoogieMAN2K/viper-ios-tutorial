@@ -7,6 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC43D422232A8C7C0028D6FD /* ViperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC43D421232A8C7C0028D6FD /* ViperTests.swift */; };
+		BC43D42A232A98630028D6FD /* APIServicesInterfaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC43D429232A98630028D6FD /* APIServicesInterfaces.swift */; };
+		BC43D42C232AA7100028D6FD /* MockServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC43D42B232AA7100028D6FD /* MockServices.swift */; };
+		BC43D42D232AA7BD0028D6FD /* MockServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC43D42B232AA7100028D6FD /* MockServices.swift */; };
+		BC43D42E232AA81C0028D6FD /* APIServicesInterfaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC43D429232A98630028D6FD /* APIServicesInterfaces.swift */; };
+		BC43D42F232AA82F0028D6FD /* UsersInterfaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA6F0323195FF600213E2F /* UsersInterfaces.swift */; };
+		BC43D430232AA8320028D6FD /* AlbumsInterfaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA6EF623195B9B00213E2F /* AlbumsInterfaces.swift */; };
+		BC43D431232AA8360028D6FD /* PhotosInterfaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA6EC62319596500213E2F /* PhotosInterfaces.swift */; };
+		BC43D432232AA83F0028D6FD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA6F1A23197B9000213E2F /* Constants.swift */; };
+		BC43D433232AA84D0028D6FD /* ServicesUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA6F0F231962D000213E2F /* ServicesUser.swift */; };
+		BC43D434232AA8500028D6FD /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA6F11231969D600213E2F /* Address.swift */; };
+		BC43D435232AA8530028D6FD /* Company.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA6F1523196A8300213E2F /* Company.swift */; };
+		BC43D436232AA8560028D6FD /* Geocode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA6F1E2319807100213E2F /* Geocode.swift */; };
+		BC43D437232AA8590028D6FD /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6629382319AEC5006360BC /* Album.swift */; };
+		BC43D438232AA85C0028D6FD /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6B8DBC231D938A0088057E /* Photo.swift */; };
 		BC6629392319AEC5006360BC /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6629382319AEC5006360BC /* Album.swift */; };
 		BC66293D2319BCB6006360BC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC66293C2319BCB6006360BC /* User.swift */; };
 		BC6B8DBD231D938A0088057E /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6B8DBC231D938A0088057E /* Photo.swift */; };
@@ -47,7 +62,22 @@
 		BCDA6F1F2319807100213E2F /* Geocode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA6F1E2319807100213E2F /* Geocode.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		BC43D424232A8C7C0028D6FD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCDA6E9D2319571B00213E2F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BCDA6EA42319571B00213E2F;
+			remoteInfo = Viper;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		BC43D41F232A8C7C0028D6FD /* ViperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ViperTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC43D421232A8C7C0028D6FD /* ViperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViperTests.swift; sourceTree = "<group>"; };
+		BC43D423232A8C7C0028D6FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BC43D429232A98630028D6FD /* APIServicesInterfaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIServicesInterfaces.swift; sourceTree = "<group>"; };
+		BC43D42B232AA7100028D6FD /* MockServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockServices.swift; sourceTree = "<group>"; };
 		BC6629382319AEC5006360BC /* Album.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
 		BC66293C2319BCB6006360BC /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		BC6B8DBC231D938A0088057E /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
@@ -91,6 +121,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		BC43D41C232A8C7C0028D6FD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BCDA6EA22319571B00213E2F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -101,6 +138,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BC43D420232A8C7C0028D6FD /* ViperTests */ = {
+			isa = PBXGroup;
+			children = (
+				BC43D421232A8C7C0028D6FD /* ViperTests.swift */,
+				BC43D423232A8C7C0028D6FD /* Info.plist */,
+			);
+			path = ViperTests;
+			sourceTree = "<group>";
+		};
 		BC66293E2319BFF3006360BC /* DataModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -118,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				BCDA6EA72319571B00213E2F /* Viper */,
+				BC43D420232A8C7C0028D6FD /* ViperTests */,
 				BCDA6EA62319571B00213E2F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -126,6 +173,7 @@
 			isa = PBXGroup;
 			children = (
 				BCDA6EA52319571B00213E2F /* Viper.app */,
+				BC43D41F232A8C7C0028D6FD /* ViperTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -247,6 +295,8 @@
 			children = (
 				BC66293E2319BFF3006360BC /* DataModel */,
 				BCDA6F1823196EB000213E2F /* Services.swift */,
+				BC43D429232A98630028D6FD /* APIServicesInterfaces.swift */,
+				BC43D42B232AA7100028D6FD /* MockServices.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -254,6 +304,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		BC43D41E232A8C7C0028D6FD /* ViperTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BC43D428232A8C7C0028D6FD /* Build configuration list for PBXNativeTarget "ViperTests" */;
+			buildPhases = (
+				BC43D41B232A8C7C0028D6FD /* Sources */,
+				BC43D41C232A8C7C0028D6FD /* Frameworks */,
+				BC43D41D232A8C7C0028D6FD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BC43D425232A8C7C0028D6FD /* PBXTargetDependency */,
+			);
+			name = ViperTests;
+			productName = ViperTests;
+			productReference = BC43D41F232A8C7C0028D6FD /* ViperTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		BCDA6EA42319571B00213E2F /* Viper */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = BCDA6EB72319571C00213E2F /* Build configuration list for PBXNativeTarget "Viper" */;
@@ -281,6 +349,10 @@
 				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "Victor Alejandria";
 				TargetAttributes = {
+					BC43D41E232A8C7C0028D6FD = {
+						CreatedOnToolsVersion = 10.2.1;
+						TestTargetID = BCDA6EA42319571B00213E2F;
+					};
 					BCDA6EA42319571B00213E2F = {
 						CreatedOnToolsVersion = 10.2.1;
 					};
@@ -300,11 +372,19 @@
 			projectRoot = "";
 			targets = (
 				BCDA6EA42319571B00213E2F /* Viper */,
+				BC43D41E232A8C7C0028D6FD /* ViperTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		BC43D41D232A8C7C0028D6FD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BCDA6EA32319571B00213E2F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -320,6 +400,26 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		BC43D41B232A8C7C0028D6FD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC43D434232AA8500028D6FD /* Address.swift in Sources */,
+				BC43D433232AA84D0028D6FD /* ServicesUser.swift in Sources */,
+				BC43D431232AA8360028D6FD /* PhotosInterfaces.swift in Sources */,
+				BC43D435232AA8530028D6FD /* Company.swift in Sources */,
+				BC43D42E232AA81C0028D6FD /* APIServicesInterfaces.swift in Sources */,
+				BC43D422232A8C7C0028D6FD /* ViperTests.swift in Sources */,
+				BC43D438232AA85C0028D6FD /* Photo.swift in Sources */,
+				BC43D42F232AA82F0028D6FD /* UsersInterfaces.swift in Sources */,
+				BC43D432232AA83F0028D6FD /* Constants.swift in Sources */,
+				BC43D430232AA8320028D6FD /* AlbumsInterfaces.swift in Sources */,
+				BC43D42D232AA7BD0028D6FD /* MockServices.swift in Sources */,
+				BC43D436232AA8560028D6FD /* Geocode.swift in Sources */,
+				BC43D437232AA8590028D6FD /* Album.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BCDA6EA12319571B00213E2F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -327,6 +427,7 @@
 				BCDA6F0923195FF600213E2F /* UsersInterfaces.swift in Sources */,
 				BCDA6ECC2319596500213E2F /* PhotosInterfaces.swift in Sources */,
 				BCDA6ECD2319596500213E2F /* PhotosPresenter.swift in Sources */,
+				BC43D42C232AA7100028D6FD /* MockServices.swift in Sources */,
 				BCDA6F0C23195FF600213E2F /* UsersInteractor.swift in Sources */,
 				BC66293D2319BCB6006360BC /* User.swift in Sources */,
 				BCDA6EF323195AF100213E2F /* ViewInterface.swift in Sources */,
@@ -338,6 +439,7 @@
 				BC6629392319AEC5006360BC /* Album.swift in Sources */,
 				BCDA6F12231969D600213E2F /* Address.swift in Sources */,
 				BCDA6EEE23195AF100213E2F /* BaseWireframe.swift in Sources */,
+				BC43D42A232A98630028D6FD /* APIServicesInterfaces.swift in Sources */,
 				BCDA6F1B23197B9000213E2F /* Constants.swift in Sources */,
 				BCDA6F1623196A8300213E2F /* Company.swift in Sources */,
 				BC6B8DBD231D938A0088057E /* Photo.swift in Sources */,
@@ -362,6 +464,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		BC43D425232A8C7C0028D6FD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BCDA6EA42319571B00213E2F /* Viper */;
+			targetProxy = BC43D424232A8C7C0028D6FD /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		BCDA6EB12319571C00213E2F /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -374,6 +484,46 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		BC43D426232A8C7C0028D6FD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = RAKJSJ283J;
+				INFOPLIST_FILE = ViperTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = demo.ViperTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Viper.app/Viper";
+			};
+			name = Debug;
+		};
+		BC43D427232A8C7C0028D6FD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = RAKJSJ283J;
+				INFOPLIST_FILE = ViperTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = demo.ViperTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Viper.app/Viper";
+			};
+			name = Release;
+		};
 		BCDA6EB52319571C00213E2F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -529,6 +679,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		BC43D428232A8C7C0028D6FD /* Build configuration list for PBXNativeTarget "ViperTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BC43D426232A8C7C0028D6FD /* Debug */,
+				BC43D427232A8C7C0028D6FD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		BCDA6EA02319571B00213E2F /* Build configuration list for PBXProject "Viper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

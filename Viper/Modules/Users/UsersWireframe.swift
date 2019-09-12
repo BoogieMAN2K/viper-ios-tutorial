@@ -22,7 +22,7 @@ final class UsersWireframe: BaseWireframe<UsersViewController> {
         let moduleViewController = storyboard.instantiateViewController(ofType: UsersViewController.self)
         super.init(viewController: moduleViewController)
         
-        let interactor = UsersInteractor()
+        let interactor = UsersInteractor(services: Services())
         let presenter = UsersPresenter(view: moduleViewController, interactor: interactor, wireframe: self)
         moduleViewController.presenter = presenter
     }

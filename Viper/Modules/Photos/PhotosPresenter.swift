@@ -34,6 +34,10 @@ final class PhotosPresenter {
 // MARK: - Extensions -
 
 extension PhotosPresenter: PhotosPresenterInterface {
+    func downloadPhotoWith(url: String, completion: @escaping DownloadedImageCompletionBlock) {
+        interactor.downloadPhotoWith(url: url, completion: completion)
+    }
+
 	var localImageCache: NSCache<NSString, UIImage> {
 		return privateCache
 	}

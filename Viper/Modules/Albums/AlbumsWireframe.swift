@@ -20,7 +20,7 @@ final class AlbumsWireframe: BaseWireframe<AlbumsViewController> {
         let moduleViewController = storyboard.instantiateViewController(ofType: AlbumsViewController.self)
         super.init(viewController: moduleViewController)
         
-        let interactor = AlbumsInteractor()
+        let interactor = AlbumsInteractor(services: Services())
 		let presenter = AlbumsPresenter(view: moduleViewController, interactor: interactor, wireframe: self, user: user)
         moduleViewController.presenter = presenter
     }

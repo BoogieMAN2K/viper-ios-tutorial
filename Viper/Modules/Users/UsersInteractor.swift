@@ -11,17 +11,35 @@
 import Foundation
 
 final class UsersInteractor {
+
+    private var privateService: APIServicesInterfaces!
+
 }
 
 // MARK: - Extensions -
 
 extension UsersInteractor: UsersInteractorInterface {
+    var services: APIServicesInterfaces {
+        get {
+            return privateService
+        }
+        set {
+            privateService = newValue
+        }
+    }
+
+    convenience init(services: APIServicesInterfaces) {
+        self.init()
+        
+        self.services = services
+    }
+
 	func getUsers(completion: @escaping UsersCompletionBlock) {
-		Services.getUsers(completion: completion)
+		services.getUsers(completion: completion)
 	}
 
 	func getUserBy(id: Int, completion: @escaping UserCompletionBlock) {
-		Services.getUsersBy(id: id, completion: completion)
+		services.getUsersBy(id: id, completion: completion)
 	}
 
 }
