@@ -97,10 +97,6 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="zIc-eW-6fX" id="xsc-ot-ikC"/>
-                                    <outlet property="delegate" destination="zIc-eW-6fX" id="2LZ-XQ-tZ0"/>
-                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -139,7 +135,6 @@
                         <outlet property="name" destination="EWM-8j-Rbd" id="ZWe-hu-3jG"/>
                         <outlet property="phone" destination="kpG-Lw-y0a" id="uip-dB-v6c"/>
                         <outlet property="tableView" destination="gjf-yJ-4MC" id="pn9-Di-oq0"/>
-                        <outlet property="tableview" destination="gjf-yJ-4MC" id="kKT-wO-nyQ"/>
                         <outlet property="username" destination="TqF-zt-74f" id="NXh-Gw-v8Q"/>
                         <outlet property="website" destination="SJn-ES-03r" id="cZL-Ln-h64"/>
                     </connections>

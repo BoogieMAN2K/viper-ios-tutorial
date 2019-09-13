@@ -38,16 +38,20 @@ extension UsersPresenter: UsersPresenterInterface {
 	}
 	
 	func showUsers(completion: @escaping UsersCompletionBlock) {
-		interactor.getUsers { [weak self] (users) -> (Void) in
-			self?.privateUsers.accept(users)
-			completion(users)
+		DispatchQueue.global(qos: .background).async {
+			self.interactor.getUsers { [weak self] (users) -> (Void) in
+				self?.privateUsers.accept(users)
+				completion(users)
+			}
 		}
 	}
 	
 	func showUserWith(index: Int) {
-		interactor.getUserBy(id: privateUsers.value[index].id ?? 0) { [weak self] (user) -> (Void) in
-			DispatchQueue.main.async {
-				self?.wireframe.willShow(user: user)
+		DispatchQueue.global(qos: .background).async {
+			self.interactor.getUserBy(id: self.privateUsers.value[index].id ?? 0) { [weak self] (user) -> (Void) in
+				DispatchQueue.main.async {
+					self?.wireframe.willShow(user: user)
+				}
 			}
 		}
 	}

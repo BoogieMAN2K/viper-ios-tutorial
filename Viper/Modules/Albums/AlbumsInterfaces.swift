@@ -21,14 +21,13 @@ protocol AlbumsWireframeInterface: WireframeInterface {
 }
 
 protocol AlbumsViewInterface: ViewInterface {
-	func showUserAlbums()
 	func showSelectedAlbumWith(album: Album)
 	func setupLabelsWith(user: User)
 }
 
 protocol AlbumsPresenterInterface: PresenterInterface {
 	var user: BehaviorRelay<User> { get }
-	var albums: [Album] { get }
+	var albums: BehaviorRelay<[Album]> { get }
 
 	func showUserAlbums(completion: @escaping AlbumsCompletionBlock)
 	func showAlbumWith(id: Int)

@@ -12,24 +12,24 @@ import RxCocoa
 import RxSwift
 
 final class AlbumsPresenter {
-
-    // MARK: - Private properties -
-	private var privateUser = BehaviorRelay(value: User())
-	private var privateAlbums = [Album]()
-
-    private unowned let view: AlbumsViewInterface
-    private let interactor: AlbumsInteractorInterface
-    private let wireframe: AlbumsWireframeInterface
+	
+	// MARK: - Private properties -
+	private var privateUser: BehaviorRelay<User> = BehaviorRelay(value: User())
+	private var privateAlbums:BehaviorRelay<[Album]> = BehaviorRelay(value: [])
+	
+	private unowned let view: AlbumsViewInterface
+	private let interactor: AlbumsInteractorInterface
+	private let wireframe: AlbumsWireframeInterface
 	private let disposeBag = DisposeBag()
-
-    // MARK: - Lifecycle -
-
+	
+	// MARK: - Lifecycle -
+	
 	init(view: AlbumsViewInterface, interactor: AlbumsInteractorInterface, wireframe: AlbumsWireframeInterface, user: ServicesUser) {
 		self.privateUser.accept(User(user: user))
-        self.view = view
-        self.interactor = interactor
-        self.wireframe = wireframe
-    }
+		self.view = view
+		self.interactor = interactor
+		self.wireframe = wireframe
+	}
 }
 
 // MARK: - Extensions -
@@ -42,34 +42,40 @@ extension AlbumsPresenter: AlbumsPresenterInterface {
 			})
 			.disposed(by: disposeBag)
 	}
-
+	
 	func changeUserInfo() {
 		self.wireframe.willChange(user: privateUser)
 	}
-
+	
 	var user: BehaviorRelay<User> {
 		return privateUser
 	}
-
-	var albums: [Album] {
+	
+	var albums: BehaviorRelay<[Album]> {
 		return privateAlbums
 	}
-
+	
 	func showUserAlbums(completion: @escaping AlbumsCompletionBlock) {
-		interactor.getAlbumsBy(user: privateUser.value.id ?? 0) { [weak self] (albums) -> (Void) in
-			self?.privateAlbums = albums
-			completion(albums)
-		}
-	}
-
-	func showAlbumWith(id: Int) {
-		interactor.getAlbumBy(id: id) { [weak self] (album) -> (Void) in
-			DispatchQueue.main.async {
-				self?.wireframe.willShowUser(album: album)
+		DispatchQueue.global(qos: .background).async {
+			self.interactor.getAlbumsBy(user: self.privateUser.value.id ?? 0) { [weak self] (albums) -> (Void) in
+				DispatchQueue.main.async {
+					completion(albums)
+					self?.privateAlbums.accept(albums)
+				}
 			}
 		}
 	}
-
+	
+	func showAlbumWith(id: Int) {
+		DispatchQueue.global(qos: .background).async {
+			self.interactor.getAlbumBy(id: id) { [weak self] (album) -> (Void) in
+				DispatchQueue.main.async {
+					self?.wireframe.willShowUser(album: album)
+				}
+			}
+		}
+	}
+	
 	func show(album: Album) {
 		self.wireframe.willShowUser(album: album)
 	}

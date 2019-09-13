@@ -25,11 +25,11 @@ final class UsersViewController: UIViewController {
 		super.viewDidLoad()
 
 		showUsers()
-		setupTableView()
+		setupTableViewCell()
 		setupTableViewTap()
 	}
 
-	func setupTableView() {
+	func setupTableViewCell() {
 		presenter.users.bind(to: tableView
 			.rx
 			.items(cellIdentifier: "userCell")) {
