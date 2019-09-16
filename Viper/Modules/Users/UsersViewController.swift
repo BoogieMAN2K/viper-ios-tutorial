@@ -21,15 +21,27 @@ final class UsersViewController: UIViewController {
 	private let disposeBag = DisposeBag()
 
 	// MARK: - Lifecycle -
+	override func viewDidLoad() {
+		super.viewDidLoad()
+
+		setupTableViewTap()
+		presenter.showUsers()
+	}
+
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 
-		showUsers()
 		setupTableViewCell()
-		setupTableViewTap()
 	}
 
 	func setupTableViewCell() {
+		tableView.delegate = nil
+		tableView.dataSource = nil
+
+		presenter.users.bind(onNext: { (users) in
+			self.showUsers()
+		}).disposed(by: disposeBag)
+
 		presenter.users.bind(to: tableView
 			.rx
 			.items(cellIdentifier: "userCell")) {
@@ -44,21 +56,17 @@ final class UsersViewController: UIViewController {
 		tableView.rx
 			.modelSelected(ServicesUser.self)
 			.subscribe ({ [unowned self] (user) in
-				self.showUser(index: self.tableView.indexPathForSelectedRow?.item ?? 0)
+				let index = self.presenter.users.value[self.tableView.indexPathForSelectedRow?.item ?? 0].id
+				self.showUser(index: index!)
 			}).disposed(by: disposeBag)
 	}
-
 }
 
 // MARK: - Extensions -
 
 extension UsersViewController: UsersViewInterface {
 	func showUsers() {
-		presenter.showUsers { (users) -> (Void) in
-			DispatchQueue.main.async { [weak self] in
-				self?.tableView.reloadData()
-			}
-		}
+		self.tableView.reloadData()
 	}
 
 	func showUser(index: Int) {

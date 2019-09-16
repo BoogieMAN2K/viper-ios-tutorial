@@ -9,10 +9,13 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
 
 final class UsersInteractor {
 
     private var privateService: APIServicesInterfaces!
+	private let disposeBag = DisposeBag()
 
 }
 
@@ -34,12 +37,12 @@ extension UsersInteractor: UsersInteractorInterface {
         self.services = services
     }
 
-	func getUsers(completion: @escaping UsersCompletionBlock) {
-		services.getUsers(completion: completion)
+	func getUsers() -> Driver<[ServicesUser]> {
+		return services.getUsers()
 	}
 
-	func getUserBy(id: Int, completion: @escaping UserCompletionBlock) {
-		services.getUsersBy(id: id, completion: completion)
+	func getUserBy(id: Int) -> Driver<ServicesUser> {
+		return services.getUsersBy(id: id)
 	}
 
 }

@@ -7,28 +7,18 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
 
-final class MockServices: APIServicesInterfaces {
+final class MockServices: BaseServices, APIServicesInterfaces {
 
-    static let session = URLSession(configuration: URLSessionConfiguration.ephemeral)
+	func getUsers() -> Driver<[ServicesUser]> {
+		fatalError()
+	}
 
-    func getUsers(completion: @escaping UsersCompletionBlock) {
-        let task = MockServices.session.dataTask(with: Constants.API.URLBase.appendingPathComponent("users")) { (data, response, error) in
-            guard let data = data, let response = try? JSONDecoder().decode(Array<ServicesUser>.self, from: data) else { return }
-            completion(response)
-        }
 
-        task.resume()
-    }
-
-    func getUsersBy(id: Int, completion: @escaping UserCompletionBlock) {
-        let url = "users/\(id)"
-        let task = MockServices.session.dataTask(with: Constants.API.URLBase.appendingPathComponent(url)) { (data, response, error) in
-            guard let data = data, let response = try? JSONDecoder().decode(ServicesUser.self, from: data) else { return }
-            completion(response)
-        }
-
-        task.resume()
+	func getUsersBy(id: Int) -> Driver<ServicesUser> {
+		fatalError()
     }
 
     func getAlbumsBy(user: Int, completion: @escaping AlbumsCompletionBlock) {

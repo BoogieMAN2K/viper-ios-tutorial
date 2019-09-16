@@ -28,13 +28,21 @@ final class AlbumsViewController: UIViewController {
 	private let disposeBag = DisposeBag()
 
 	// MARK: - Lifecycle -
+
+	override func viewDidLoad() {
+		super.viewDidLoad()
+
+		self.setupTableViewTap()
+	}
+
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 
 		setupLabels()
 		presenter.showUserAlbums { [unowned self] (albums) -> (Void) in
+			self.tableView.delegate = nil
+			self.tableView.dataSource = nil
 			self.setupTableViewCell()
-			self.setupTableViewTap()
 			self.tableView.reloadData()
 		}
 	}

@@ -37,22 +37,15 @@ extension UsersPresenter: UsersPresenterInterface {
 		return privateUsers
 	}
 	
-	func showUsers(completion: @escaping UsersCompletionBlock) {
-		DispatchQueue.global(qos: .background).async {
-			self.interactor.getUsers { [weak self] (users) -> (Void) in
-				self?.privateUsers.accept(users)
-				completion(users)
-			}
-		}
+	func showUsers() {
+		self.interactor.getUsers().drive(onNext: { [unowned self] (users) in
+			self.privateUsers.accept(users)
+		}).disposed(by: disposeBag)
 	}
 	
 	func showUserWith(index: Int) {
-		DispatchQueue.global(qos: .background).async {
-			self.interactor.getUserBy(id: self.privateUsers.value[index].id ?? 0) { [weak self] (user) -> (Void) in
-				DispatchQueue.main.async {
-					self?.wireframe.willShow(user: user)
-				}
-			}
-		}
+		self.interactor.getUserBy(id: index).drive(onNext: { (user) in
+			self.wireframe.willShow(user: user)
+		}).disposed(by: disposeBag)
 	}
 }
