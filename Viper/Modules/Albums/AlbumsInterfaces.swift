@@ -22,7 +22,7 @@ protocol AlbumsWireframeInterface: WireframeInterface {
 
 protocol AlbumsViewInterface: ViewInterface {
 	func showSelectedAlbumWith(album: Album)
-	func setupLabelsWith(user: User)
+	func setupLabels()
 }
 
 protocol AlbumsPresenterInterface: PresenterInterface {
@@ -32,8 +32,7 @@ protocol AlbumsPresenterInterface: PresenterInterface {
 	func showUserAlbums(completion: @escaping AlbumsCompletionBlock)
 	func showAlbumWith(id: Int)
 	func show(album: Album)
-	func setupLabels()
-	func changeUserInfo()
+	func changeUser()
 }
 
 protocol AlbumsInteractorInterface: InteractorInterface {

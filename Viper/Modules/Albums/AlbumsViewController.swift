@@ -10,6 +10,7 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 final class AlbumsViewController: UIViewController {
 	
@@ -25,21 +26,21 @@ final class AlbumsViewController: UIViewController {
 	@IBOutlet private weak var website: UILabel!
 	@IBOutlet private weak var tableView: UITableView!
 	private let disposeBag = DisposeBag()
-	
+
 	// MARK: - Lifecycle -
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		
-		presenter.setupLabels()
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+
+		setupLabels()
 		presenter.showUserAlbums { [unowned self] (albums) -> (Void) in
 			self.setupTableViewCell()
 			self.setupTableViewTap()
 			self.tableView.reloadData()
 		}
 	}
-	
+
 	@IBAction func changeButtonTap(_ sender: Any) {
-		presenter.changeUserInfo()
+		presenter.changeUser()
 	}
 	
 	func setupTableViewCell() {
@@ -65,13 +66,15 @@ final class AlbumsViewController: UIViewController {
 // MARK: - Extensions -
 
 extension AlbumsViewController: AlbumsViewInterface {
-	func setupLabelsWith(user: User) {
-		self.name.text = user.name
-		self.username.text = user.username
-		self.email.text = user.email
-		self.address.text = user.address
-		self.phone.text = user.phone
-		self.website.text = user.website
+	func setupLabels() {
+		presenter.user.asObservable().bind {
+			self.name.text = $0.name
+			self.username.text = $0.username
+			self.email.text = $0.email
+			self.address.text = $0.address
+			self.phone.text = $0.phone
+			self.website.text = $0.website
+		}.disposed(by: disposeBag)
 	}
 	
 	func showSelectedAlbumWith(album: Album) {

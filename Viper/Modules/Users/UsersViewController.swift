@@ -21,8 +21,8 @@ final class UsersViewController: UIViewController {
 	private let disposeBag = DisposeBag()
 
 	// MARK: - Lifecycle -
-	override func viewDidLoad() {
-		super.viewDidLoad()
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
 
 		showUsers()
 		setupTableViewCell()

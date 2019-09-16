@@ -35,6 +35,6 @@ extension AlbumsWireframe: AlbumsWireframeInterface {
 	}
 
 	func willChange(user: BehaviorRelay<User>) {
-		navigationController?.pushWireframe(ChangeUserWireframe(user: user))
+		navigationController?.presentModalWireframe(ChangeUserWireframe(user: user))
 	}
 }

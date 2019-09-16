@@ -47,7 +47,13 @@ extension UINavigationController {
     func pushWireframe<View>(_ wireframe: BaseWireframe<View>, animated: Bool = true) {
         self.pushViewController(wireframe.viewController, animated: animated)
     }
-    
+
+	func presentModalWireframe<View>(_ wireframe: BaseWireframe<View>, animated: Bool = true) {
+		self.modalPresentationStyle = .overCurrentContext
+		self.definesPresentationContext = true
+		self.present(wireframe.viewController, animated: true, completion: nil)
+    }
+
     func setRootWireframe<View>(_ wireframe: BaseWireframe<View>, animated: Bool = true) {
         self.setViewControllers([wireframe.viewController], animated: animated)
     }
