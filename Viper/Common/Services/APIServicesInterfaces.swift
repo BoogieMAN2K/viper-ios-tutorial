@@ -7,12 +7,14 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
 
 typealias DownloadedImageCompletionBlock = (Data)->(Void)
 
 protocol APIServicesInterfaces {
-    func getUsers(completion: @escaping UsersCompletionBlock)
-    func getUsersBy(id: Int, completion: @escaping UserCompletionBlock)
+    func getUsers() -> Driver<[ServicesUser]>
+    func getUsersBy(id: Int) -> Driver<ServicesUser>
     func getAlbumsBy(user: Int, completion: @escaping AlbumsCompletionBlock)
     func getAlbumBy(id: Int, completion: @escaping AlbumCompletionBlock)
     func getPhotosBy(album: Int, completion: @escaping PhotosCompletionBlock)

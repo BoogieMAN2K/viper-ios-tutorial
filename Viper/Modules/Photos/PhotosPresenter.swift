@@ -12,40 +12,44 @@ import UIKit
 
 final class PhotosPresenter {
 
-    // MARK: - Private properties -
+	// MARK: - Private properties -
 
 	private var privateAlbum = Album()
 	private var privatePhotos = [Photo]()
 	private var privateCache = NSCache<NSString, UIImage>()
-    private unowned let view: PhotosViewInterface
-    private let interactor: PhotosInteractorInterface
-    private let wireframe: PhotosWireframeInterface
+	private unowned let view: PhotosViewInterface
+	private let interactor: PhotosInteractorInterface
+	private let wireframe: PhotosWireframeInterface
 
-    // MARK: - Lifecycle -
+	// MARK: - Lifecycle -
 
 	init(view: PhotosViewInterface, interactor: PhotosInteractorInterface, wireframe: PhotosWireframeInterface, album: Album) {
-        self.view = view
-        self.interactor = interactor
-        self.wireframe = wireframe
+		self.view = view
+		self.interactor = interactor
+		self.wireframe = wireframe
 		self.privateAlbum = album
-    }
+	}
 }
 
 // MARK: - Extensions -
 
 extension PhotosPresenter: PhotosPresenterInterface {
-    func downloadPhotoWith(url: String, completion: @escaping DownloadedImageCompletionBlock) {
-        interactor.downloadPhotoWith(url: url, completion: completion)
-    }
+	func downloadPhotoWith(url: String, completion: @escaping DownloadedImageCompletionBlock) {
+        DispatchQueue.global(qos: .background).async {
+			self.interactor.downloadPhotoWith(url: url, completion: completion)
+		}
+	}
 
 	var localImageCache: NSCache<NSString, UIImage> {
 		return privateCache
 	}
 
 	func showPhotosWithAlbum(id: Int, completion: @escaping PhotosCompletionBlock) {
-		interactor.getPhotosWithAlbum(id: id) { (photos) -> (Void) in
-			self.privatePhotos = photos
-			completion(photos)
+		DispatchQueue.global(qos: .background).async {
+			self.interactor.getPhotosWithAlbum(id: id) { (photos) -> (Void) in
+				self.privatePhotos = photos
+				completion(photos)
+			}
 		}
 	}
 

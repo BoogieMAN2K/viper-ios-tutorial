@@ -9,26 +9,30 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 typealias AlbumsCompletionBlock = ([Album]) -> (Void)
 typealias AlbumCompletionBlock = (Album) -> (Void)
 
 protocol AlbumsWireframeInterface: WireframeInterface {
 	func willShowUser(album: Album)
+	func willChange(user: BehaviorRelay<User>)
 }
 
 protocol AlbumsViewInterface: ViewInterface {
-	func showUserAlbums()
 	func showSelectedAlbumWith(album: Album)
+	func setupLabels()
 }
 
 protocol AlbumsPresenterInterface: PresenterInterface {
-	var user: User { get }
-	var albums: [Album] { get }
+	var user: BehaviorRelay<User> { get }
+	var albums: BehaviorRelay<[Album]> { get }
 
 	func showUserAlbums(completion: @escaping AlbumsCompletionBlock)
 	func showAlbumWith(id: Int)
 	func show(album: Album)
+	func changeUser()
 }
 
 protocol AlbumsInteractorInterface: InteractorInterface {

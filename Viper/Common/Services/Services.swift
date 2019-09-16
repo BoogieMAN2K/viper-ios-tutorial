@@ -7,28 +7,31 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
 
-final class Services: APIServicesInterfaces {
+final class Services: BaseServices, APIServicesInterfaces {
 
-	static let session = URLSession(configuration: URLSessionConfiguration.ephemeral)
+	func getUsers() -> Driver<[ServicesUser]>{
+		let components = URLComponents(string: Constants.API.URLBase.appendingPathComponent("users").absoluteString)!
+		let urlRequest = URLRequest(url: components.url!)
+		let result:Driver<[ServicesUser]> = remoteArrayStream(urlRequest)
+			.observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+			.single()
+			.asDriver(onErrorJustReturn: [ServicesUser]())
 
-	func getUsers(completion: @escaping UsersCompletionBlock) {
-		let task = Services.session.dataTask(with: Constants.API.URLBase.appendingPathComponent("users")) { (data, response, error) in
-			guard let data = data, let response = try? JSONDecoder().decode(Array<ServicesUser>.self, from: data) else { return }
-			completion(response)
-		}
-
-		task.resume()
+		return result
 	}
 
-	func getUsersBy(id: Int, completion: @escaping UserCompletionBlock) {
-		let url = "users/\(id)"
-		let task = Services.session.dataTask(with: Constants.API.URLBase.appendingPathComponent(url)) { (data, response, error) in
-			guard let data = data, let response = try? JSONDecoder().decode(ServicesUser.self, from: data) else { return }
-			completion(response)
-		}
+	func getUsersBy(id: Int) -> Driver<ServicesUser> {
+		let components = URLComponents(string: Constants.API.URLBase.appendingPathComponent("users/\(id)").absoluteString)!
+		let urlRequest = URLRequest(url: components.url!)
+		let result:Driver<ServicesUser> = remoteStream(urlRequest)
+			.observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+			.single()
+			.asDriver(onErrorJustReturn: ServicesUser())
 
-		task.resume()
+		return result
 	}
 
 	func getAlbumsBy(user: Int, completion: @escaping AlbumsCompletionBlock) {

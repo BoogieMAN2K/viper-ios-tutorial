@@ -9,12 +9,14 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 final class AlbumsViewController: UIViewController {
-
-    // MARK: - Public properties -
+	
+	// MARK: - Public properties -
 	var presenter: AlbumsPresenterInterface!
-
+	
 	// MARK: - Private properties -
 	@IBOutlet private weak var name: UILabel!
 	@IBOutlet private weak var username: UILabel!
@@ -22,68 +24,68 @@ final class AlbumsViewController: UIViewController {
 	@IBOutlet private weak var address: UILabel!
 	@IBOutlet private weak var phone: UILabel!
 	@IBOutlet private weak var website: UILabel!
-	@IBOutlet private weak var tableview: UITableView!
 	@IBOutlet private weak var tableView: UITableView!
+	private let disposeBag = DisposeBag()
 
-    // MARK: - Lifecycle -
-    override func viewDidLoad() {
-        super.viewDidLoad()
+	// MARK: - Lifecycle -
 
-		name.text = presenter.user.name
-		username.text = presenter.user.username
-		email.text = presenter.user.email
-		address.text = presenter.user.address
-		phone.text = presenter.user.phone
-		website.text = presenter.user.website
+	override func viewDidLoad() {
+		super.viewDidLoad()
 
-		showUserAlbums()
-    }
-	
-}
-
-// MARK: - UITableView Delegate -
-extension AlbumsViewController: UITableViewDelegate {
-	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		let selectedAlbum = self.presenter.albums[indexPath.row]
-		showSelectedAlbumWith(album: selectedAlbum)
-	}
-}
-
-// MARK: - UITableView DataSource -
-extension AlbumsViewController: UITableViewDataSource {
-	func numberOfSections(in tableView: UITableView) -> Int {
-		return 1
+		self.setupTableViewTap()
 	}
 
-	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return presenter.albums.count
-	}
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
 
-	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let item = presenter.albums[indexPath.row]
-		var cell = tableView.dequeueReusableCell(withIdentifier: "albumCell")
-		if (cell == nil)
-		{
-			cell = UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: "albumCell")
+		setupLabels()
+		presenter.showUserAlbums { [unowned self] (albums) -> (Void) in
+			self.tableView.delegate = nil
+			self.tableView.dataSource = nil
+			self.setupTableViewCell()
+			self.tableView.reloadData()
 		}
-		cell?.textLabel?.text = item.title
-		return cell ?? UITableViewCell()
+	}
+
+	@IBAction func changeButtonTap(_ sender: Any) {
+		presenter.changeUser()
+	}
+	
+	func setupTableViewCell() {
+		presenter.albums.bind(to: tableView
+			.rx
+			.items(cellIdentifier: "albumCell")) {
+				row, item, cell in
+				cell.textLabel?.text = item.title
+		}
+		.disposed(by: disposeBag)
+	}
+	
+	func setupTableViewTap() {
+		tableView.rx
+			.modelSelected(Album.self)
+			.subscribe ({ [unowned self] (user) in
+				let selectedAlbum = self.presenter.albums.value[self.tableView.indexPathForSelectedRow?.item ?? 0]
+				self.showSelectedAlbumWith(album: selectedAlbum)
+			}).disposed(by: disposeBag)
 	}
 }
 
 // MARK: - Extensions -
 
 extension AlbumsViewController: AlbumsViewInterface {
-	func showUserAlbums() {
-		presenter.showUserAlbums { (albums) -> (Void) in
-			DispatchQueue.main.async { [weak self] in
-				self?.tableView.reloadData()
-			}
-		}
+	func setupLabels() {
+		presenter.user.asObservable().bind {
+			self.name.text = $0.name
+			self.username.text = $0.username
+			self.email.text = $0.email
+			self.address.text = $0.address
+			self.phone.text = $0.phone
+			self.website.text = $0.website
+		}.disposed(by: disposeBag)
 	}
-
+	
 	func showSelectedAlbumWith(album: Album) {
 		presenter.show(album: album)
 	}
-
 }

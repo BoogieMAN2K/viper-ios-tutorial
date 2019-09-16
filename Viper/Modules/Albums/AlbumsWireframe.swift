@@ -9,6 +9,7 @@
 //
 
 import UIKit
+import RxCocoa
 
 final class AlbumsWireframe: BaseWireframe<AlbumsViewController> {
 
@@ -31,5 +32,9 @@ final class AlbumsWireframe: BaseWireframe<AlbumsViewController> {
 extension AlbumsWireframe: AlbumsWireframeInterface {
 	func willShowUser(album: Album) {
 		navigationController?.pushWireframe(PhotosWireframe(album: album))
+	}
+
+	func willChange(user: BehaviorRelay<User>) {
+		navigationController?.presentModalWireframe(ChangeUserWireframe(user: user))
 	}
 }

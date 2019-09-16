@@ -9,49 +9,56 @@
 //
 
 import UIKit
+import RxSwift
 
 final class UsersViewController: UIViewController {
 
-    // MARK: - Public properties -
+	// MARK: - Public properties -
 	var presenter: UsersPresenterInterface!
 
 	// MARK: - Private properties -
 	@IBOutlet private weak var tableView: UITableView!
+	private let disposeBag = DisposeBag()
 
-    // MARK: - Lifecycle -
-    override func viewDidLoad() {
-        super.viewDidLoad()
+	// MARK: - Lifecycle -
+	override func viewDidLoad() {
+		super.viewDidLoad()
 
-		showUsers()
-    }
-	
-}
-
-extension UsersViewController: UITableViewDelegate {
-	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		showUser(index: indexPath.row)
-	}
-}
-
-extension UsersViewController: UITableViewDataSource {
-	func numberOfSections(in tableView: UITableView) -> Int {
-		return 1
+		setupTableViewTap()
+		presenter.showUsers()
 	}
 
-	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return presenter.users.count
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+
+		setupTableViewCell()
 	}
 
-	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let item = presenter.users[indexPath.row]
-		var cell = tableView.dequeueReusableCell(withIdentifier: "userCell")
-		if (cell == nil)
-		{
-			cell = UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: "userCell")
+	func setupTableViewCell() {
+		tableView.delegate = nil
+		tableView.dataSource = nil
+
+		presenter.users.bind(onNext: { (users) in
+			self.showUsers()
+		}).disposed(by: disposeBag)
+
+		presenter.users.bind(to: tableView
+			.rx
+			.items(cellIdentifier: "userCell")) {
+				row, item, cell in
+				cell.textLabel?.text = item.name
+				cell.detailTextLabel?.text = item.username
 		}
-		cell?.textLabel?.text = item.name
-		cell?.detailTextLabel?.text = item.username
-		return cell ?? UITableViewCell()
+		.disposed(by: disposeBag)
+	}
+
+	func setupTableViewTap() {
+		tableView.rx
+			.modelSelected(ServicesUser.self)
+			.subscribe ({ [unowned self] (user) in
+				let index = self.presenter.users.value[self.tableView.indexPathForSelectedRow?.item ?? 0].id
+				self.showUser(index: index!)
+			}).disposed(by: disposeBag)
 	}
 }
 
@@ -59,11 +66,7 @@ extension UsersViewController: UITableViewDataSource {
 
 extension UsersViewController: UsersViewInterface {
 	func showUsers() {
-		presenter.showUsers { (users) -> (Void) in
-			DispatchQueue.main.async { [weak self] in
-				self?.tableView.reloadData()
-			}
-		}
+		self.tableView.reloadData()
 	}
 
 	func showUser(index: Int) {

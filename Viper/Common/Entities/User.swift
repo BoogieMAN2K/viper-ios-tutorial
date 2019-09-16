@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
 
 struct User {
 	let id : Int?
@@ -17,6 +19,28 @@ struct User {
 	let phone : String?
 	let website : String?
 	let company : String?
+
+	init() {
+		self.id = 0
+		self.name = ""
+		self.username = ""
+		self.email = ""
+		self.address = ""
+		self.phone = ""
+		self.website = ""
+		self.company = ""
+	}
+
+	init(id: Int?, name: String?, username: String?, email: String?, address: String?, phone: String?, website: String?, company: String?) {
+		self.id = id
+		self.name = name
+		self.username = username
+		self.email = email
+		self.address = address
+		self.phone = phone
+		self.website = website
+		self.company = company
+	}
 
 	init(user: ServicesUser) {
 		self.id = user.id

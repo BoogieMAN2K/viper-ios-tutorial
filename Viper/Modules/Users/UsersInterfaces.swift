@@ -9,9 +9,8 @@
 //
 
 import UIKit
-
-typealias UsersCompletionBlock = ([ServicesUser]) -> (Void)
-typealias UserCompletionBlock = (ServicesUser) -> (Void)
+import RxSwift
+import RxCocoa
 
 protocol UsersWireframeInterface: WireframeInterface {
 	func willShow(user: ServicesUser)
@@ -23,13 +22,13 @@ protocol UsersViewInterface: ViewInterface {
 }
 
 protocol UsersPresenterInterface: PresenterInterface {
-	var users: [ServicesUser] { get }
-
-	func showUsers(completion: @escaping UsersCompletionBlock)
+	var users: BehaviorRelay<[ServicesUser]> { get }
+	
+	func showUsers()
 	func showUserWith(index: Int)
 }
 
 protocol UsersInteractorInterface: InteractorInterface {
-	func getUsers(completion: @escaping UsersCompletionBlock)
-	func getUserBy(id: Int, completion: @escaping UserCompletionBlock)
+	func getUsers() -> Driver<[ServicesUser]>
+	func getUserBy(id: Int) -> Driver<ServicesUser>
 }
