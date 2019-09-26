@@ -4,6 +4,7 @@ platform :ios, '12.2'
 def myPods
     pod 'RxSwift', '~> 5'
     pod 'RxCocoa', '~> 5'
+		pod 'RxDataSources', '~> 4.0'
 end
 
 target 'Viper' do

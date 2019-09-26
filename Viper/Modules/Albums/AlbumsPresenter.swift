@@ -12,18 +12,18 @@ import RxCocoa
 import RxSwift
 
 final class AlbumsPresenter {
-
+	
 	// MARK: - Private properties -
 	private var privateUser: BehaviorRelay<User> = BehaviorRelay(value: User())
 	private var privateAlbums:BehaviorRelay<[Album]> = BehaviorRelay(value: [])
-
+	
 	private unowned let view: AlbumsViewInterface
 	private let interactor: AlbumsInteractorInterface
 	private let wireframe: AlbumsWireframeInterface
 	private let disposeBag = DisposeBag()
-
+	
 	// MARK: - Lifecycle -
-
+	
 	init(view: AlbumsViewInterface, interactor: AlbumsInteractorInterface, wireframe: AlbumsWireframeInterface, user: ServicesUser) {
 		self.privateUser.accept(User(user: user))
 		self.view = view
@@ -38,36 +38,28 @@ extension AlbumsPresenter: AlbumsPresenterInterface {
 	func changeUser() {
 		self.wireframe.willChange(user: privateUser)
 	}
-
+	
 	var user: BehaviorRelay<User> {
 		return privateUser
 	}
-
+	
 	var albums: BehaviorRelay<[Album]> {
 		return privateAlbums
 	}
-
+	
 	func showUserAlbums(completion: @escaping AlbumsCompletionBlock) {
-		DispatchQueue.global(qos: .background).async {
-			self.interactor.getAlbumsBy(user: self.privateUser.value.id ?? 0) { [weak self] (albums) -> (Void) in
-				DispatchQueue.main.async {
-					completion(albums)
-					self?.privateAlbums.accept(albums)
-				}
-			}
+		self.interactor.getAlbumsBy(user: self.privateUser.value.id ?? 0) { [weak self] (albums) -> (Void) in
+			completion(albums)
+			self?.privateAlbums.accept(albums)
 		}
 	}
-
+	
 	func showAlbumWith(id: Int) {
-		DispatchQueue.global(qos: .background).async {
-			self.interactor.getAlbumBy(id: id) { [weak self] (album) -> (Void) in
-				DispatchQueue.main.async {
-					self?.wireframe.willShowUser(album: album)
-				}
-			}
+		self.interactor.getAlbumBy(id: id) { [weak self] (album) -> (Void) in
+			self?.wireframe.willShowUser(album: album)
 		}
 	}
-
+	
 	func show(album: Album) {
 		self.wireframe.willShowUser(album: album)
 	}

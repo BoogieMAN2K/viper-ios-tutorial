@@ -9,10 +9,12 @@
 //
 
 import Foundation
+import RxSwift
 
 final class PhotosInteractor {
 
     private var privateService: APIServicesInterfaces!
+	private let disposeBag = DisposeBag()
 
 }
 
@@ -20,10 +22,10 @@ final class PhotosInteractor {
 
 extension PhotosInteractor: PhotosInteractorInterface {
     func downloadPhotoWith(url: String, completion: @escaping DownloadedImageCompletionBlock) {
-        self.services.downloadImage(url: url) { (data) -> (Void) in
-            completion(data)
-        }
-    }
+		self.services.downloadImageDataFrom(url: url).drive(onNext: { (data) in
+			completion(data)
+		}).disposed(by: disposeBag)
+	}
 
     var services: APIServicesInterfaces {
         get {
@@ -41,6 +43,8 @@ extension PhotosInteractor: PhotosInteractorInterface {
     }
 
 	func getPhotosWithAlbum(id: Int, completion: @escaping PhotosCompletionBlock) {
-		services.getPhotosBy(album: id, completion: completion)
+		services.getPhotosBy(album: id).drive(onNext: { (photos) in
+			completion(photos)
+		}).disposed(by: disposeBag)
 	}
 }
