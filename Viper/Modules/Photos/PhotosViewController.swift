@@ -9,85 +9,61 @@
 //
 
 import UIKit
+import RxSwift
 
 final class PhotosViewController: UIViewController {
 
-    // MARK: - Public properties -
-    var presenter: PhotosPresenterInterface!
+	// MARK: - Public properties -
+	var presenter: PhotosPresenterInterface!
 
-    // MARK: - Private properties -
-    @IBOutlet private weak var collectionView: UICollectionView!
+	// MARK: - Private properties -
+	@IBOutlet weak var collectionView: UICollectionView!
+	private let disposeBag = DisposeBag()
 
-    // MARK: - Lifecycle -
-    override func viewDidLoad() {
-        super.viewDidLoad()
+	// MARK: - Lifecycle -
+	override func viewDidLoad() {
+		super.viewDidLoad()
 
-        showPhotos()
-    }
-}
+	}
 
-// MARK: - UICollectionView Delegate -
-extension PhotosViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedAlbum = self.presenter.photos[indexPath.row]
-    }
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+
+		collectionView.delegate = self
+		showPhotos()
+		self.collectionView.reloadData()
+	}
 }
 
 // MARK: - UICollectionView DelegateFlowLayout -
 extension PhotosViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 120, height: 120)
-    }
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+		return CGSize(width: 120, height: 120)
+	}
 }
-
-// MARK: - UICollectionView DataSource -
-extension PhotosViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return presenter.photos.count
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as! PhotoCollectionViewCell
-        cell.photoThumbnail.image = UIImage()
-
-        return cell
-    }
-
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        let item = presenter.photos[indexPath.row]
-        let cell = cell as! PhotoCollectionViewCell
-        if let cachedImage = presenter.localImageCache.object(forKey: item.thumbnailUrl! as NSString) {
-            cell.photoThumbnail.image = cachedImage
-        } else {
-            presenter.downloadPhotoWith(url: item.thumbnailUrl!) { [weak self] (data) -> (Void) in
-                guard let downloadedImage = UIImage(data: data) else { return }
-                self?.presenter.localImageCache.setObject(downloadedImage, forKey: item.thumbnailUrl! as NSString)
-                DispatchQueue.main.async {
-                    cell.photoThumbnail.image = downloadedImage
-                }
-            }
-        }
-    }
-
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-}
-
-
 
 
 // MARK: - Extensions -
 extension PhotosViewController: PhotosViewInterface {
-    func showPhotos() {
-        presenter.showPhotosWithAlbum(id: presenter.album.id ?? 0) { [weak self] (photos) -> (Void) in
-            DispatchQueue.main.async { [weak self] in
-                self?.collectionView.reloadData()
-            }
-        }
-    }
+	func showPhotos() {
+		presenter.showPhotosWithAlbum(id: presenter.album.value.id ?? 0) { [unowned self] (photos) -> (Void) in
+			self.presenter.photos.asObservable()
+				.bind(to: self.collectionView.rx.items(cellIdentifier: "photoCell", cellType: PhotoCollectionViewCell.self)) { (row, photo, cell) in
+					cell.photoThumbnail.image = UIImage()
+					if let cachedImage = self.presenter.localImageCache.value.object(forKey: photo.thumbnailUrl! as NSString) {
+						cell.photoThumbnail.image = cachedImage
+					} else {
+						self.presenter.downloadPhotoWith(url: photo.thumbnailUrl!) { (data) -> (Void) in
+							guard let downloadedImage = UIImage(data: data) else { return }
+							self.presenter.localImageCache.value.setObject(downloadedImage, forKey: photo.thumbnailUrl! as NSString)
+							cell.photoThumbnail.image = downloadedImage
+						}
+					}
+				}.disposed(by: self.disposeBag)
+		}
+	}
 
-    func presentAlbumActionWith(id: Int) {
-    }
+	func presentAlbumActionWith(id: Int) {
+	}
 
 }

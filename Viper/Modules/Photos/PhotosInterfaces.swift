@@ -9,6 +9,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 typealias PhotosCompletionBlock = ([Photo]) -> (Void)
 typealias PhotoCompletionBlock = (Photo) -> (Void)
@@ -21,9 +23,9 @@ protocol PhotosViewInterface: ViewInterface {
 }
 
 protocol PhotosPresenterInterface: PresenterInterface {
-	var album: Album { get }
-	var photos: [Photo] { get }
-	var localImageCache: NSCache<NSString, UIImage> { get }
+	var album: BehaviorRelay<Album> { get }
+	var photos: BehaviorRelay<[Photo]> { get }
+	var localImageCache: BehaviorRelay<NSCache<NSString, UIImage>> { get }
 
 	func showPhotosWithAlbum(id: Int, completion: @escaping PhotosCompletionBlock)
     func downloadPhotoWith(url: String, completion: @escaping DownloadedImageCompletionBlock)

@@ -9,10 +9,12 @@
 //
 
 import Foundation
+import RxSwift
 
 final class AlbumsInteractor {
 	
-	var privateServices: APIServicesInterfaces!
+	private var privateServices: APIServicesInterfaces!
+	private let disposeBag = DisposeBag()
 	
 }
 
@@ -27,7 +29,7 @@ extension AlbumsInteractor: AlbumsInteractorInterface {
 			privateServices = newValue
 		}
 	}
-	
+
 	convenience init(services: APIServicesInterfaces) {
 		self.init()
 		
@@ -35,11 +37,15 @@ extension AlbumsInteractor: AlbumsInteractorInterface {
 	}
 	
 	func getAlbumBy(id: Int, completion: @escaping AlbumCompletionBlock) {
-		self.services.getAlbumBy(id: id, completion: completion)
+		self.services.getAlbumBy(id: id).drive(onNext: { (album) in
+			completion(album)
+		}).disposed(by: disposeBag)
 	}
 	
 	func getAlbumsBy(user: Int, completion: @escaping AlbumsCompletionBlock) {
-		self.services.getAlbumsBy(user: user, completion: completion)
+		self.services.getAlbumsBy(user: user).drive(onNext: { (albums) in
+			completion(albums)
+		}).disposed(by: disposeBag)
 	}
 	
 }

@@ -15,8 +15,8 @@ typealias DownloadedImageCompletionBlock = (Data)->(Void)
 protocol APIServicesInterfaces {
     func getUsers() -> Driver<[ServicesUser]>
     func getUsersBy(id: Int) -> Driver<ServicesUser>
-    func getAlbumsBy(user: Int, completion: @escaping AlbumsCompletionBlock)
-    func getAlbumBy(id: Int, completion: @escaping AlbumCompletionBlock)
-    func getPhotosBy(album: Int, completion: @escaping PhotosCompletionBlock)
-    func downloadImage(url: String, completion: @escaping DownloadedImageCompletionBlock)
+    func getAlbumsBy(user: Int) -> Driver<[Album]>
+    func getAlbumBy(id: Int) -> Driver<Album>
+    func getPhotosBy(album: Int) -> Driver<[Photo]>
+	func downloadImageDataFrom(url: String) -> Driver<Data>
 }

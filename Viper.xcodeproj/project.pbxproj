@@ -23,6 +23,7 @@
 		BC43D436232AA8560028D6FD /* Geocode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA6F1E2319807100213E2F /* Geocode.swift */; };
 		BC43D437232AA8590028D6FD /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6629382319AEC5006360BC /* Album.swift */; };
 		BC43D438232AA85C0028D6FD /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6B8DBC231D938A0088057E /* Photo.swift */; };
+		BC49EDCD233BF059005A5C82 /* VIPERError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC49EDCC233BF059005A5C82 /* VIPERError.swift */; };
 		BC6629392319AEC5006360BC /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6629382319AEC5006360BC /* Album.swift */; };
 		BC66293D2319BCB6006360BC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC66293C2319BCB6006360BC /* User.swift */; };
 		BC6B8DBD231D938A0088057E /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6B8DBC231D938A0088057E /* Photo.swift */; };
@@ -91,6 +92,7 @@
 		BC43D423232A8C7C0028D6FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BC43D429232A98630028D6FD /* APIServicesInterfaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIServicesInterfaces.swift; sourceTree = "<group>"; };
 		BC43D42B232AA7100028D6FD /* MockServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockServices.swift; sourceTree = "<group>"; };
+		BC49EDCC233BF059005A5C82 /* VIPERError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VIPERError.swift; sourceTree = "<group>"; };
 		BC6629382319AEC5006360BC /* Album.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
 		BC66293C2319BCB6006360BC /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		BC6B8DBC231D938A0088057E /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 				BCDA6F1723196DF500213E2F /* Services */,
 				BCDA6F0E231962B700213E2F /* Entities */,
 				BCDA6ED12319599100213E2F /* Base Interfaces */,
+				BC49EDCC233BF059005A5C82 /* VIPERError.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -569,6 +572,7 @@
 				BCDA6EC22319583100213E2F /* NavigationController.swift in Sources */,
 				BCDA6F1923196EB000213E2F /* Services.swift in Sources */,
 				BCDA6EFE23195B9B00213E2F /* AlbumsViewController.swift in Sources */,
+				BC49EDCD233BF059005A5C82 /* VIPERError.swift in Sources */,
 				BCDA6EEF23195AF100213E2F /* InteractorInterface.swift in Sources */,
 				BC97C576232FDB1100DE9EDC /* String + Extansions.swift in Sources */,
 				BCB118C3232AC470008F47D2 /* ChangeUserInteractor.swift in Sources */,

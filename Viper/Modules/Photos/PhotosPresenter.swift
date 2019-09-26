@@ -9,14 +9,16 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 final class PhotosPresenter {
 
 	// MARK: - Private properties -
 
-	private var privateAlbum = Album()
-	private var privatePhotos = [Photo]()
-	private var privateCache = NSCache<NSString, UIImage>()
+	private var privateAlbum = BehaviorRelay(value: Album())
+	private var privatePhotos = BehaviorRelay(value: [Photo]())
+	private var privateCache = BehaviorRelay(value: NSCache<NSString, UIImage>())
 	private unowned let view: PhotosViewInterface
 	private let interactor: PhotosInteractorInterface
 	private let wireframe: PhotosWireframeInterface
@@ -27,37 +29,33 @@ final class PhotosPresenter {
 		self.view = view
 		self.interactor = interactor
 		self.wireframe = wireframe
-		self.privateAlbum = album
+		self.privateAlbum.accept(album)
 	}
 }
 
 // MARK: - Extensions -
 
 extension PhotosPresenter: PhotosPresenterInterface {
-	func downloadPhotoWith(url: String, completion: @escaping DownloadedImageCompletionBlock) {
-        DispatchQueue.global(qos: .background).async {
-			self.interactor.downloadPhotoWith(url: url, completion: completion)
-		}
-	}
-
-	var localImageCache: NSCache<NSString, UIImage> {
-		return privateCache
-	}
-
-	func showPhotosWithAlbum(id: Int, completion: @escaping PhotosCompletionBlock) {
-		DispatchQueue.global(qos: .background).async {
-			self.interactor.getPhotosWithAlbum(id: id) { (photos) -> (Void) in
-				self.privatePhotos = photos
-				completion(photos)
-			}
-		}
-	}
-
-	var album: Album {
+	var album: BehaviorRelay<Album> {
 		return privateAlbum
 	}
 
-	var photos: [Photo] {
+	var photos: BehaviorRelay<[Photo]> {
 		return privatePhotos
+	}
+
+	var localImageCache: BehaviorRelay<NSCache<NSString, UIImage>> {
+		return privateCache
+	}
+
+	func downloadPhotoWith(url: String, completion: @escaping DownloadedImageCompletionBlock) {
+		self.interactor.downloadPhotoWith(url: url, completion: completion)
+	}
+	
+	func showPhotosWithAlbum(id: Int, completion: @escaping PhotosCompletionBlock) {
+		self.interactor.getPhotosWithAlbum(id: id) { (photos) -> (Void) in
+			self.privatePhotos.accept(photos)
+			completion(photos)
+		}
 	}
 }

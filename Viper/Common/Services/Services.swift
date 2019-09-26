@@ -34,7 +34,7 @@ final class Services: BaseServices, APIServicesInterfaces {
 		return result
 	}
 
-	func getAlbumsBy(user: Int, completion: @escaping AlbumsCompletionBlock) {
+	func getAlbumsBy(user: Int) -> Driver<[Album]> {
 		let url = "albums"
 		var components = URLComponents(string: Constants.API.URLBase.appendingPathComponent(url).absoluteString)!
 		let param = ["userId":String(user)]
@@ -45,25 +45,27 @@ final class Services: BaseServices, APIServicesInterfaces {
 		components.queryItems = items
 		let request = URLRequest(url: components.url!)
 
-		let task = Services.session.dataTask(with: request) { (data, response, error) in
-			guard let data = data, let response = try? JSONDecoder().decode(Array<Album>.self, from: data) else { return }
-			completion(response)
-		}
+		let result:Driver<[Album]> = remoteArrayStream(request)
+			.observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+			.single()
+			.asDriver(onErrorJustReturn: [Album]())
 
-		task.resume()
+		return result
 	}
 
-	func getAlbumBy(id: Int, completion: @escaping AlbumCompletionBlock) {
+	func getAlbumBy(id: Int) -> Driver<Album> {
 		let url = "albums/\(id)"
-		let task = Services.session.dataTask(with: Constants.API.URLBase.appendingPathComponent(url)) { (data, response, error) in
-			guard let data = data, let response = try? JSONDecoder().decode(Album.self, from: data) else { return }
-			completion(response)
-		}
+		let request = URLRequest(url: Constants.API.URLBase.appendingPathComponent(url))
 
-		task.resume()
+		let result:Driver<Album> = remoteStream(request)
+			.observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+			.single()
+			.asDriver(onErrorJustReturn: Album())
+
+		return result
 	}
 
-	func getPhotosBy(album: Int, completion: @escaping PhotosCompletionBlock) {
+	func getPhotosBy(album: Int) -> Driver<[Photo]> {
 		let url = "photos"
 		var components = URLComponents(string: Constants.API.URLBase.appendingPathComponent(url).absoluteString)!
 		let param = ["albumId": String(album)]
@@ -74,27 +76,23 @@ final class Services: BaseServices, APIServicesInterfaces {
 		components.queryItems = items
 		let request = URLRequest(url: components.url!)
 
-		let task = Services.session.dataTask(with: request) { (data, response, error) in
-			guard let data = data, let response = try? JSONDecoder().decode(Array<Photo>.self, from: data) else { return }
-			completion(response)
-		}
+		let result:Driver<[Photo]> = remoteArrayStream(request)
+			.observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+			.single()
+			.asDriver(onErrorJustReturn: [Photo]())
 
-		task.resume()
+		return result
 	}
 
-	func downloadImage(url: String, completion: @escaping DownloadedImageCompletionBlock) {
-		let finalURL: URL = URL(string: url)!
-		let task = Services.session.dataTask(with: finalURL) { (data, response, error) in
-			if (error != nil) {
-				print("Error \(String(describing: error?.localizedDescription))")
-				return
-			}
+	func downloadImageDataFrom(url: String) -> Driver<Data> {
+		let request = URLRequest(url: URL(string: url)!)
 
-			guard let data = data else { return }
-			completion(data)
-		}
+		let result:Driver<Data> = remoteData(request)
+			.observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+			.single()
+			.asDriver(onErrorJustReturn: Data())
 
-		task.resume()
+		return result
 	}
 
 }
